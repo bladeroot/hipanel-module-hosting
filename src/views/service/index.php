@@ -1,8 +1,19 @@
 <?php
 
+/*
+ * Client Plugin for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-hosting
+ * @package   hipanel-module-client
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2015, HiQDev (https://hiqdev.com/)
+ */
+
 use hipanel\modules\hosting\grid\ServiceGridView;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
+use yii\bootstrap\Dropdown;
 use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel:hosting', 'Services');
@@ -17,7 +28,10 @@ $this->params['breadcrumbs'][]  = $this->title;
         <?php $page->setSearchFormData(compact(['stateData', 'softData'])) ?>
         <?php $page->beginContent('main-actions') ?>
             <?php if (Yii::$app->user->can('admin')) : ?>
-                <?= Html::a(Yii::t('hipanel:hosting', 'Create service'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+                <?= Html::a(Yii::t('hipanel:hosting', 'Create service'), '#create-modal', [
+                    'class' => 'btn btn-sm btn-success',
+                    'data-toggle' => 'modal',
+                ]) ?>
             <?php endif ?>
         <?php $page->endContent() ?>
 
@@ -34,6 +48,25 @@ $this->params['breadcrumbs'][]  = $this->title;
 
         <?php $page->beginContent('bulk-actions') ?>
         <?php $page->endContent() ?>
+        <?php if (Yii::$app->user->can('admin')) : ?>
+            <div class="text-left">
+                <?= AjaxModal::widget([
+                    'id' => 'create-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Create service'), ['class' => 'modal-title']),
+                    'headerOptions' => ['class' => 'label-info'],
+                    'scenario' => 'create',
+                    'actionUrl' => ['create'],
+                    'handleSubmit' => false,
+                    'toggleButton' => false,
+                    'options' => [
+                        'tabindex' => false,
+                    ],
+                ]) ?>
+            </div>
+
+        <?php endif ?>
+
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>

@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $page->beginContent('main-actions') ?>
             <div class="dropdown">
-                <a class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                <a class="btn btn-sm btn-success dropdown-toggle" type="button" id="create-dropdown-menu" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
                     <?= Yii::t('hipanel:hosting', 'Create account'); ?>
                     <span class="caret"></span>
@@ -49,34 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]
                 ]); ?>
-            </div>
-            <div class="text-left">
-                <?= AjaxModal::widget([
-                    'id' => 'create-ssh-account-modal',
-                    'bulkPage' => true,
-                    'header' => Html::tag('h4', Yii::t('hipanel:hosting:account', 'Create SSH account'), ['class' => 'modal-title']),
-                    'headerOptions' => ['class' => 'label-info'],
-                    'scenario' => 'create',
-                    'actionUrl' => ['create'],
-                    'handleSubmit' => false,
-                    'toggleButton' => false,
-                    'options' => [
-                        'tabindex' => false,
-                    ]
-                ]) ?>
-                <?= AjaxModal::widget([
-                    'id' => 'create-ftp-account-modal',
-                    'bulkPage' => true,
-                    'header' => Html::tag('h4', Yii::t('hipanel:hosting:account', 'Create FTP account'), ['class' => 'modal-title']),
-                    'headerOptions' => ['class' => 'label-info'],
-                    'scenario' => 'create-ftponly',
-                    'actionUrl' => ['create-ftponly'],
-                    'handleSubmit' => false,
-                    'toggleButton' => false,
-                    'options' => [
-                        'tabindex' => false,
-                    ]
-                ]) ?>
             </div>
         <?php $page->endContent() ?>
 
@@ -102,6 +74,30 @@ $this->params['breadcrumbs'][] = $this->title;
             ];
             $ajaxModals = [
                 [
+                    'id' => 'create-ssh-account-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:hosting:account', 'Create SSH account'), ['class' => 'modal-title']),
+                    'headerOptions' => ['class' => 'label-info'],
+                    'scenario' => 'create',
+                    'actionUrl' => ['create'],
+                    'handleSubmit' => false,
+                    'toggleButton' => false,
+                    'options' => [
+                        'tabindex' => false,
+                    ]
+                ],[
+                    'id' => 'create-ftp-account-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:hosting:account', 'Create FTP account'), ['class' => 'modal-title']),
+                    'headerOptions' => ['class' => 'label-info'],
+                    'scenario' => 'create-ftponly',
+                    'actionUrl' => ['create-ftponly'],
+                    'handleSubmit' => false,
+                    'toggleButton' => false,
+                    'options' => [
+                        'tabindex' => false,
+                    ]
+                ],[
                     'id' => 'bulk-delete-modal',
                     'bulkPage' => true,
                     'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
@@ -154,13 +150,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'options' => ['class' => 'pull-right'],
                     'items' => $dropDownItems,
                 ]) ?>
-                <div class="text-left">
-                    <?php foreach ($ajaxModals as $ajaxModal) : ?>
-                        <?= AjaxModal::widget($ajaxModal) ?>
-                    <?php endforeach ?>
-               </div>
             </div>
         <?php $page->endContent() ?>
+         <div class="text-left">
+             <?php foreach ($ajaxModals as $ajaxModal) : ?>
+                 <?= AjaxModal::widget($ajaxModal) ?>
+             <?php endforeach ?>
+        </div>
+
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>

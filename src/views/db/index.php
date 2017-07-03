@@ -2,6 +2,7 @@
 
 use hipanel\modules\hosting\grid\DbGridView;
 use hipanel\widgets\IndexPage;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
@@ -17,7 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->setSearchFormData(compact(['stateData'])) ?>
 
         <?php $page->beginContent('main-actions') ?>
-            <?= Html::a(Yii::t('hipanel:hosting', 'Create DB'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+            <?= Html::a(Yii::t('hipanel:hosting', 'Create DB'), '#create-modal', [
+                    'class' => 'btn btn-sm btn-success',
+                    'data-toggle' => 'modal',
+            ]) ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('show-actions') ?>
@@ -34,6 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->beginContent('bulk-actions') ?>
             <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger')?>
         <?php $page->endContent() ?>
+            <div class="text-left">
+                <?= AjaxModal::widget([
+                    'id' => 'create-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Create DB'), ['class' => 'modal-title']),
+                    'headerOptions' => ['class' => 'label-info'],
+                    'scenario' => 'create',
+                    'actionUrl' => ['create'],
+                    'handleSubmit' => false,
+                    'toggleButton' => false,
+                    'options' => [
+                        'tabindex' => false,
+                    ],
+                ]) ?>
+            </div>
+
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>

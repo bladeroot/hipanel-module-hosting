@@ -48,6 +48,7 @@ class DbController extends CrudController
             ],
             'create' => [
                 'class'   => SmartCreateAction::class,
+                'view' => '_form',
                 'success' => Yii::t('hipanel:hosting', 'DB has been created successfully'),
             ],
             'set-password' => [
