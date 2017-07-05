@@ -49,14 +49,6 @@ class HostingForm extends Widget
     {
         parent::init();
 
-        /***
-
-        \yii\helpers\VarDumper::dump($this->models, 10, true);
-        \yii\helpers\VarDumper::dump($this->model, 10, true);
-        die();
-        **/
-
-
         if ($this->models === null) {
             throw new InvalidConfigException('Please specify the "models" property.');
         }
@@ -115,6 +107,10 @@ class HostingForm extends Widget
     protected function renderForm()
     {
         foreach ($this->models as $i => $model) {
+            if ($this->scenario === 'update') {
+                $i = $model->id;
+            }
+
             echo Html::beginTag('div', ['class' => 'row']);
                 echo Html::beginTag('div', ['class' => 'col-md-12']);
                     echo Html::beginTag('div', ['class' => 'box box-danger']);
@@ -177,14 +173,17 @@ class HostingForm extends Widget
                 'readonly' => $this->scenario === 'update' && $values['readonly'] === true,
             ],
         ];
+
         $widgetOptions = $values['options']
             ? ArrayHelper::merge($values['options'], $widgetOptions)
             : $widgetOptions;
+
         foreach ($widgetOptions as $name => $value) {
-            if ($value instanceof Closure) {
-                $widgetOptions['name'] = $value($model);
+            if (is_callable($value)) {
+                $widgetOptions[$name] = $value($model);
             }
         }
+
         return $input->widget($values['class'], $widgetOptions);
     }
 
@@ -236,7 +235,7 @@ class HostingForm extends Widget
                 'options' => [
                     'current' => function ($model) {
                         $ips = array_unique(array_merge((array)$model->ip, (array)$model->ips));
-                        return array_combine($ip, $ips);
+                        return array_combine($ips, $ips);
                     },
                 ],
             ],

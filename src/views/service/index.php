@@ -10,6 +10,7 @@
  */
 
 use hipanel\modules\hosting\grid\ServiceGridView;
+use hipanel\widgets\BulkButtonsRender;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
@@ -46,27 +47,28 @@ $this->params['breadcrumbs'][]  = $this->title;
             <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
-        <?php $page->beginContent('bulk-actions') ?>
-        <?php $page->endContent() ?>
-        <?php if (Yii::$app->user->can('admin')) : ?>
-            <div class="text-left">
-                <?= AjaxModal::widget([
-                    'id' => 'create-modal',
-                    'bulkPage' => true,
-                    'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Create service'), ['class' => 'modal-title']),
-                    'headerOptions' => ['class' => 'label-info'],
-                    'scenario' => 'create',
-                    'actionUrl' => ['create'],
-                    'handleSubmit' => false,
-                    'toggleButton' => false,
-                    'options' => [
-                        'tabindex' => false,
+        <?= "123" ?>
+
+        <?= BulkButtonsRender::widget([
+            'buttons' => [
+                'update' => [
+                    'button' => [
+                        'visible' => Yii::$app->user->can('admin'),
                     ],
-                ]) ?>
-            </div>
+                    'modal' => [
+                        'header' => Html::tag('h4', Yii::t('hipanel', 'Update'), ['class' => 'modal-title label-info']),
+                        'actionUrl' => 'update',
 
-        <?php endif ?>
-
+                    ],
+                ],
+                'delete' => [
+                    'button' => [
+                        'visible' => Yii::$app->user->can('admin'),
+                    ],
+                ],
+            ],
+            'page' => $page,
+        ]) ?>
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>
@@ -75,6 +77,7 @@ $this->params['breadcrumbs'][]  = $this->title;
                     'boxed' => false,
                     'filterModel' => $model,
                     'columns' => [
+                        'checkbox',
                         'seller_id', 'client_id',
                         'server',
                         'actions',

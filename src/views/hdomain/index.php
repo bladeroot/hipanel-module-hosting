@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\hosting\grid\HdomainGridView;
+use hipanel\widgets\BulkButtonsRender;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
@@ -44,7 +45,30 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
-        <?php $page->beginContent('bulk-actions') ?>
+        <?= BulkButtonsRender::widget([
+            'buttons' => [
+                'enable-block' => [
+                    'button' => [
+                        'visible' => Yii::$app->user->can('support'),
+                    ],
+                    'modal' => [
+                        'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Block domains'), ['class' => 'modal-title label-warning']),
+                    ],
+                ],
+                'disable-block' => [
+                    'button' => [
+                        'visible' => Yii::$app->user->can('support'),
+                    ],
+                    'modal' => [
+                        'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Unblock domains'), ['class' => 'modal-title label-warning']),
+                    ],
+                ],
+                'delete' => true,
+            ],
+            'page' => $page,
+        ]) ?>
+
+        <?php /*** $page->beginContent('bulk-actions') ?>
             <?php if (Yii::$app->user->can('support')) : ?>
                 <div class="dropdown" style="display: inline-block">
                     <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -92,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php endif ?>
             <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger')?>
-        <?php $page->endContent() ?>
+        <?php $page->endContent() **/ ?>
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>

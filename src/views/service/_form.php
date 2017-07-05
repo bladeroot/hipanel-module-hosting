@@ -10,7 +10,7 @@ echo \hipanel\modules\hosting\widgets\HostingForm::widget([
     'models' => $models,
     'scenario' => $model->isNewRecord ? $model->scenario : 'update',
     'inputs' => [
-        'client', 'server',
+        Yii::$app->user->can('support') ? 'client' : null, 'server',
         [
             'input_name' => 'name',
         ],
@@ -22,10 +22,12 @@ echo \hipanel\modules\hosting\widgets\HostingForm::widget([
             'input_name' => 'etc',
         ],
         [
+            'type' => 'dropDownList',
             'input_name' => 'soft',
             'dropDownList' => $softs,
         ],
         [
+            'type' => 'dropDownList',
             'input_name' => 'state',
             'dropDownList' => $states,
         ],

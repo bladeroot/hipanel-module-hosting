@@ -83,6 +83,7 @@ class ServiceController extends \hipanel\base\CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
+                'view' => '_form',
                 'data' => function ($action) {
                     /** @var Action $action */
                     return [
@@ -95,6 +96,7 @@ class ServiceController extends \hipanel\base\CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
+                'view' => '_form',
                 'data' => function ($action) {
                     /** @var Action $action */
                     return [

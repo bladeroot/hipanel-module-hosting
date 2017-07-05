@@ -157,6 +157,7 @@ return [
     'Block domains' => 'Заблокировать домены',
     'Unblock domain' => 'Разблокировать домен',
     'Unblock domains' => 'Разблокировать домены',
+    'Affected hosting domains' => 'Выбранные хостинговые домены',
     '{0, plural, one{domain} other{domains}}' => '{0, plural, one{домен} few{домена} many{доменов} other{доменов}}',
     'Temporary' => 'Временный',
     'Proxy enabled' => 'Проксирование включено',

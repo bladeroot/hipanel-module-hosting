@@ -166,6 +166,15 @@ class HdomainController extends \hipanel\base\CrudController
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'disable-block',
                 'view' => '_bulkDisableBlock',
+                'data' => function ($action, $data) {
+                    return array_merge($data, [
+                        'blockReasons' => $this->getBlockReasons(),
+                    ]);
+                },
+            ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkDelete',
             ],
             'set-dns-on' => [
                 'class' => SmartUpdateAction::class,
