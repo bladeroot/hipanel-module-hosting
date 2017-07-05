@@ -47,8 +47,6 @@ $this->params['breadcrumbs'][]  = $this->title;
             <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
-        <?= "123" ?>
-
         <?= BulkButtonsRender::widget([
             'buttons' => [
                 'update' => [
