@@ -28,11 +28,11 @@ class Request extends \hipanel\base\Model
         return [
             [['id', 'object_id', 'service_id', 'client_id', 'account_id', 'server_id'], 'integer'],
             [['realm', 'object', 'service', 'client', 'account', 'server', 'type_ids'], 'safe'],
-            [['type', 'type_label', 'state', 'state_label', 'action', 'object_class', 'classes'], 'safe'],
+            [['type', 'type_label', 'state', 'state_label', 'action', 'object_class', 'classes', 'error_code'], 'safe'],
             [['tries_left', 'pid', 'time_lag'], 'integer'],
             [['object_name'], 'safe'],
             [['time'], 'date'],
-            [['id'], 'integer', 'on' => ['delete']],
+            [['id'], 'integer', 'on' => ['delete', 'close']],
         ];
     }
 

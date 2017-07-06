@@ -19,6 +19,8 @@ namespace hipanel\modules\hosting\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\SmartDeleteAction;
+use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\ViewAction;
 use Yii;
 
@@ -53,8 +55,51 @@ class RequestController extends \hipanel\base\CrudController
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,
-                'success' => Yii::t('hipanel:hosting', 'Deleted'),
+                'success' => Yii::t('hipanel', 'Deleted'),
                 'error' => Yii::t('hipanel:hosting', 'An error occurred when trying to delete request.'),
+            ],
+            'bulk-delete' => [
+                'class' => SmartDeleteAction::class,
+                'scenario' => 'delete',
+                'success' => Yii::t('hipanel', 'Deleted'),
+                'error' => Yii::t('hipanel:hosting', 'An error occurred when trying to delete requests.'),
+            ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkDelete',
+            ],
+            'close' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:hosting', 'Closed'),
+                'error'  => Yii::t('hipanel:hosting', 'An error occurred when trying to close request.'),
+            ],
+            'bulk-close' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'close',
+                'success' => Yii::t('hipanel:hosting', 'Closed'),
+                'error'  => Yii::t('hipanel:hosting', 'An error occurred when trying to close requests.'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $comment = Yii::$app->request->post('error_code');
+                    if (!empty($type)) {
+                        foreach ($action->collection->models as $model) {
+                            $model->setAttributes([
+                                'error_code' => $error_code,
+                            ]);
+                        }
+                    }
+                },
+            ],
+           'bulk-close-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkClose',
             ],
         ];
     }
