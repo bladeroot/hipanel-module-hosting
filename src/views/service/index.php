@@ -68,6 +68,23 @@ $this->params['breadcrumbs'][]  = $this->title;
             'page' => $page,
         ]) ?>
 
+            <div class="text-left">
+                <?= AjaxModal::widget([
+                    'id' => 'create-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:hosting', 'Create service'), ['class' => 'modal-title']),
+                    'headerOptions' => ['class' => 'label-info'],
+                    'scenario' => 'create',
+                    'actionUrl' => ['create'],
+                    'handleSubmit' => false,
+                    'toggleButton' => false,
+                    'options' => [
+                        'tabindex' => false,
+                    ],
+                ]) ?>
+            </div>
+
+
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>
                 <?= ServiceGridView::widget([
