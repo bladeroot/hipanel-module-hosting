@@ -17,12 +17,14 @@ use yii\web\View;
 
 ?>
 
+<?php $scenario =  $model->isNewRecord ? reset($models)->scenario : 'update'; ?>
+
 <?php $form = ActiveForm::begin([
-    'id' => 'dynamic-form',
+    'id' => "{$scenario}-dynamic-form",
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute([
         'validate-form',
-        'scenario' => $model->isNewRecord ? reset($models)->scenario : 'update'
+        'scenario' => $scenario,
     ]),
 ]) ?>
 
